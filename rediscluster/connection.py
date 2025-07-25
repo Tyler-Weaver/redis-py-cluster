@@ -622,6 +622,14 @@ class ClusterReadOnlyConnectionPool(ClusterConnectionPool):
         return random.choice(self.nodes.slots[slot])
 
 
+    def get_node_by_slot(self, slot, *args, **kwargs):
+        """Get a random node by slot, including master node.
+        """
+        nodes_in_slot = self.nodes.slots[slot]
+        random_index = random.randrange(0, len(nodes_in_slot))
+        return nodes_in_slot[random_index]
+
+
 class ClusterWithReadReplicasConnectionPool(ClusterConnectionPool):
     """
     Custom connection pool for rediscluster with load balancing across read replicas
