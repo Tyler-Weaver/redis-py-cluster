@@ -458,13 +458,16 @@ class RedisCluster(Redis):
         if transaction:
             raise RedisClusterException("transaction is deprecated in cluster mode")
 
+        # Prefer the argument if set from the client, otherwise use the pipeline args
+        should_read_from_replicas = self.read_from_replicas if self.read_from_replicas else read_from_replicas
+
         return ClusterPipeline(
             connection_pool=self.connection_pool,
             startup_nodes=self.connection_pool.nodes.startup_nodes,
             result_callbacks=self.result_callbacks,
             response_callbacks=self.response_callbacks,
             cluster_down_retry_attempts=self.cluster_down_retry_attempts,
-            read_from_replicas=read_from_replicas,
+            read_from_replicas=should_read_from_replicas,
         )
 
     def transaction(self, *args, **kwargs):
