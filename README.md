@@ -80,3 +80,57 @@ Copyright (c) 2013-2021 Johan Andersson
 MIT (See docs/License.txt file)
 
 The license should be the same as redis-py (https://github.com/andymccurdy/redis-py)
+
+
+# Dev testing
+
+## Mac
+1. Install packages using homebrew.
+
+This also installs a manager for ruby versions called rbenv.
+Not using a manager can cause system issues with ruby versions and gems.
+
+Ensure you do not use `sudo` when installing gems as that can cause issues with permissions requiring
+you to start over from scratch with a new ruby install.
+```
+brew install ruby lua luarocks
+brew install rbenv ruby-build
+```
+
+2. Ensure your shell is configured to use rbenv.
+```
+echo 'eval "$(rbenv init -)"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+3. Install ruby version >= 2.6.10. 
+
+
+The initial install takes a while to complete
+with minimal output on what is happening. Wait about 5-10 minutes before continuing 
+to the next step.
+```
+rbenv install 2.6.10
+rbenv global 2.6.10
+```
+
+4. Install the redis gem.
+
+
+This takes a while to complete.
+```
+gem install redis
+
+gem list redis
+```
+
+redis-trib.rb is now deprecated. If you're able, use the redis-cli instead.
+It requires an update to the Makefile to use the redis-cli instead.
+For the sake of time, we will use the redis-trib.rb script for now.
+
+
+5. Use Make targets to run tests.
+```
+make redis-install
+make test
+```

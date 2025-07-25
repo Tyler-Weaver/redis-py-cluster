@@ -367,7 +367,7 @@ tox:
 	coverage report
 
 clone-redis:
-	[ ! -e redis-git ] && git clone https://github.com/antirez/redis.git redis-git || true
+	[ ! -e redis-git ] && git clone https://github.com/redis/redis.git redis-git || true
 	cd redis-git && git checkout $(REDIS_VERSION)
 
 redis-install:
