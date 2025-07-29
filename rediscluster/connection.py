@@ -628,6 +628,10 @@ class ClusterReadOnlyConnectionPool(ClusterConnectionPool):
         nodes_in_slot = self.nodes.slots[slot]
         if read_from_replicas:
             replicas = [node for node in nodes_in_slot if node['server_type'] != 'master']
+
+            if not replicas:
+                raise RedisClusterException("No replicas available for the specified slot.")
+
             random_node = random.choice(replicas)
         else:
             random_node = random.choice(nodes_in_slot)
