@@ -313,9 +313,9 @@ start: cleanup
 	sleep 5
 
 cleanup:
-	- rm -vf /tmp/redis_cluster_node*.conf 2>/dev/null
-	- rm -vf /tmp/redis_cluster_password_protected_node*.conf 2>/dev/null
-	- rm dump.rdb appendonly.aof - 2>/dev/null
+	@rm -vf /tmp/redis_cluster_node*.conf 2>/dev/null || true
+	@rm -vf /tmp/redis_cluster_password_protected_node*.conf 2>/dev/null || true
+	@rm -vf dump.rdb appendonly.aof 2>/dev/null || true
 
 stop:
 	kill `cat /tmp/redis_cluster_node1.pid` || true
@@ -393,4 +393,9 @@ benchmark:
 ptp:
 	python ptp-debug.py
 
-.PHONY: test
+intbox-sync:
+	(host -tA $(INTEGRATIONBOX) > /dev/null && \
+	rsync --delete -crlpv --rsync-path="sudo rsync" -e ssh --exclude-from .rsync-exclude.txt ./ $(SSHUSER)@$(INTEGRATIONBOX):~/redis-py-cluster/) || \
+	(echo "Cannot rsync source to INTEGRATIONBOX=\"$(INTEGRATIONBOX)\"" && false)
+
+.PHONY: test intbox-sync

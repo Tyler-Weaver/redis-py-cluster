@@ -1,0 +1,13 @@
+*~
+*.pyc
+.DS_Store
+/.git
+/.idea
+/.vagrant
+/build
+/dist
+/docs
+/node_modules
+/browser-test
+/coverage
+/docker/data
