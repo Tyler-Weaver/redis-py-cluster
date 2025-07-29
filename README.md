@@ -134,3 +134,24 @@ For the sake of time, we will use the redis-trib.rb script for now.
 make redis-install
 make test
 ```
+
+## Funtional testing
+
+Sync the repository to your integrationbox.
+```
+make intbox-sync
+```
+
+SSH into your integrationbox and navigate to the redis-py-cluster directory.
+```
+ssh $INTEGRATIONBOX
+cd redis-py-cluster
+```
+
+Install the local version of redis-py-cluster.
+```
+sudo pip install .
+sudo systemctl restart track-1
+```
+
+The track service should now be running the local version of redis-py-cluster.
