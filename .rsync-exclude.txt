@@ -6,7 +6,6 @@
 /.vagrant
 /build
 /dist
-/docs
 /node_modules
 /browser-test
 /coverage
